@@ -1,34 +1,34 @@
 package com.espe.api_clientes.controlador;
 
-import com.espe.api_clientes.modelo.Cliente; // Importa la clase Cliente del modelo
-import com.espe.api_clientes.servicio.ClienteService; // Importa el servicio de Cliente
-import jakarta.validation.Valid; // Para la validación de objetos de entrada
-import org.springframework.beans.factory.annotation.Autowired; // Para la inyección de dependencias
-import org.springframework.http.ResponseEntity; // Para construir respuestas HTTP
-import org.springframework.web.bind.annotation.*; // Anotaciones REST principales
+import com.espe.api_clientes.modelo.Cliente; 
+import com.espe.api_clientes.servicio.ClienteService; 
+import jakarta.validation.Valid; 
+import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.http.ResponseEntity; 
+import org.springframework.web.bind.annotation.*; 
 
-import java.net.URI; // Para construir la URI de la respuesta 'created'
-import java.util.List; // Para listas de clientes
-import java.util.Optional; // Para manejar clientes que pueden no existir
+import java.net.URI; 
+import java.util.List; 
+import java.util.Optional; 
 
-@RestController // Indica que esta clase es un controlador REST
-@RequestMapping("/api/clientes") // Define la ruta base para todos los endpoints en este controlador
-@CrossOrigin(origins = "*") // Permite peticiones CORS desde cualquier origen (útil para desarrollo frontend)
+@RestController 
+@RequestMapping("/api/clientes") 
+@CrossOrigin(origins = "*") 
 public class ClienteController {
 
-    @Autowired // Inyecta una instancia de ClienteService
+    @Autowired 
     private ClienteService clienteService;
 
-    // Endpoint de prueba: GET /api/clientes/test
+    
     @GetMapping("/test")
     public String test() {
-        return "Funciona"; // Retorna un simple mensaje para verificar que el controlador está activo
+        return "Funciona"; 
     }
 
-    // Endpoint para obtener todos los clientes: GET /api/clientes
+    
     @GetMapping
     public List<Cliente> listarTodos() {
-        return clienteService.listarTodos(); // Llama al servicio para obtener la lista de clientes
+        return clienteService.listarTodos(); 
     }
 
     // Endpoint para obtener un cliente por ID: GET /api/clientes/{id}
@@ -55,7 +55,7 @@ public class ClienteController {
     // Endpoint para actualizar un cliente existente: PUT /api/clientes/{id}
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> actualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
-        // Busca el cliente existente por ID
+        
         Optional<Cliente> clienteOpt = Optional.ofNullable(clienteService.buscarPorId(id));
         return clienteOpt.map(c -> {
             // Si el cliente existe, actualiza sus campos con los datos de la petición
@@ -63,7 +63,7 @@ public class ClienteController {
             c.setNombres(cliente.getNombres());
             c.setApellidos(cliente.getApellidos());
             c.setContacto(cliente.getContacto());
-            Cliente actualizado = clienteService.guardar(c); // Guarda los cambios
+            Cliente actualizado = clienteService.guardar(c); 
             return ResponseEntity.ok(actualizado); // Devuelve 200 OK con el cliente actualizado
         }).orElse(ResponseEntity.notFound().build()); // Si no encuentra el cliente, devuelve 404 Not Found
     }
@@ -74,8 +74,8 @@ public class ClienteController {
         // Busca el cliente para verificar si existe antes de intentar eliminar
         Optional<Cliente> clienteOpt = Optional.ofNullable(clienteService.buscarPorId(id));
         if (clienteOpt.isPresent()) {
-            clienteService.eliminar(id); // Si existe, lo elimina
-            return ResponseEntity.noContent().build(); // Devuelve 204 No Content (eliminación exitosa sin cuerpo)
+            clienteService.eliminar(id); 
+            return ResponseEntity.noContent().build(); 
         }
         return ResponseEntity.notFound().build(); // Si no encuentra el cliente, devuelve 404 Not Found
     }
