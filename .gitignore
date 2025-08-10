@@ -31,3 +31,25 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+# Node.js dependencies
+/frontend/node_modules/
+
+# Build/Dist folders (common for React, Angular, Vue, etc.)
+/frontend/build/
+/frontend/dist/
+
+# Environment variables files (common in frontend projects)
+/frontend/.env
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+/frontend/.env.local
+
+# Other common frontend ignores
+/frontend/.parcel-cache/ # For Parcel bundler
+/frontend/tmp/
+/frontend/*.log
+/frontend/.DS_Store # macOS specific
